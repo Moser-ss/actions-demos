@@ -1,6 +1,12 @@
 name: Demo1
 on:
-    workflow_dispatch:
+  workflow_dispatch:
+    inputs:
+      main-process-exit-code:
+        description: Exit code of the main process
+        required: false
+        default: 0
+        type: 'number'
 
 jobs:
   job1:
@@ -12,3 +18,5 @@ jobs:
 
       - name: Run Composite action
         uses: ./actions/action-with-post-steps
+        with:
+          main-process-exit-code: ${{ inputs.main-process-exit-code }}
