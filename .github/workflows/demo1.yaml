@@ -1,0 +1,14 @@
+name: Demo1
+on:
+    workflow_dispatch:
+
+jobs:
+  job1:
+    name: Demo1 - Job1
+    runs-on: ubuntu
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run Composite action
+        uses: ./actions/action-with-post-steps

@@ -1,0 +1,33 @@
+name: 'Action with post steps'
+description: 'Action with post steps that are always executed'
+inputs:
+  main-process-exit-code:
+    description: Exit code of the main process
+    required: false
+    default: '0'
+runs:
+  using: "composite"
+  steps:
+    - name: Simulate a long process
+      shell: bash
+      env:
+        EXIT_CODE: ${{inputs.main-process-exit-code}}
+      run: |
+        echo "Simulate long process"
+        counter=0
+        timer=10
+        while [ $counter  -lt $timer ];
+        do
+          echo "Step $counter of $timer" 
+          sleep 15s
+          (( counter++ )) || true
+        done
+
+        echo "Exit long process with code $EXIT_CODE"
+        exit "$EXIT_CODE"
+      
+    - name: Clean up step
+      shell: bash
+      if: ${{always()}}
+      run: |
+        echo "Run cleanup job"
